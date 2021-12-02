@@ -1,17 +1,17 @@
-// 
-// 
-// 
-
 #include "libButton.h"
 
-void libButton::scanState() {
-    if (flagPress == (!digitalRead(_pin))) {
+void libButton::scanState() 
+{
+    if (flagPress == (!digitalRead(_pin))) 
+    {
         _buttonCount = 0;
     }
-    else {
+    else 
+    {
         _buttonCount++;
 
-        if (_buttonCount >= _timeButton) {
+        if (_buttonCount >= _timeButton) 
+        {
             flagPress = !flagPress;
             _buttonCount = 0;
             if (flagPress == true) flagClick = true;
@@ -33,19 +33,23 @@ libButton::libButton(byte pin, byte timeButton)
     pinMode(_pin, INPUT_PULLUP);
 }
 
-void libButton::filterAvarage() {
-    if (flagPress != digitalRead(_pin)) {
-        //  состояние кнопки осталось прежним
-        if (_buttonCount != 0) _buttonCount--; // счетчик подтверждений - 1 с ограничением на 0 
+void libButton::filterAvarage() 
+{
+    if (flagPress != digitalRead(_pin)) 
+    {
+        // РЎРѕСЃС‚РѕСЏРЅРёРµ РєРЅРѕРїРєРё РѕСЃС‚Р°Р»РѕСЃСЊ РїСЂРµР¶РЅРёРј
+        if (_buttonCount != 0) _buttonCount--;
     }
-    else {
-        // состояние кнопки изменилось
-        _buttonCount++;   // +1 к счетчику подтверждений
-        if (_buttonCount >= _timeButton) {
-            // состояние сигнала достигло порога _timeButton
-            flagPress = !flagPress; // инверсия признака состояния
-            _buttonCount = 0;  // сброс счетчика подтверждений
-            if (flagPress == true) flagClick = true; // признак клика кнопки       
+    else 
+    {
+        // РЎРѕСЃС‚РѕСЏРЅРёРµ РєРЅРѕРїРєРё РёР·РјРµРЅРёР»РѕСЃСЊ
+        _buttonCount++;
+        if (_buttonCount >= _timeButton) 
+        {
+            // РЎРѕСЃС‚РѕСЏРЅРёРµ СЃРёРіРЅР°Р»Р° РґРѕСЃС‚РёРіР»Рѕ max _timeButton
+            flagPress = !flagPress;
+            _buttonCount = 0;
+            if (flagPress == true) flagClick = true;    
         }
     }
 }
